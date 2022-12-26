@@ -1,0 +1,51 @@
+.card {
+  background-color: white;
+  width: 75%;
+  max-height: -webkit-fit-content;
+  max-height: -moz-fit-content;
+  max-height: fit-content;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+.card .title {
+  text-align: start;
+  color: #2d6a4f;
+}
+.card .posted-by,
+.card .date-created {
+  display: flex;
+  font-style: italic;
+  font-size: 12px;
+  color: #2d6a4f;
+}
+.card .description {
+  color: #2d6a4f;
+}
+.card .buttons {
+  display: flex;
+  justify-content: end;
+}
+.card .buttons .edit,
+.card .buttons .delete {
+  background-color: #e9c46a;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  width: 10rem;
+}
+.card .buttons .delete {
+  background-color: #e76f51;
+}
+.card .buttons .delete:hover,
+.card .buttons .edit:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}/*# sourceMappingURL=NoteCard.css.map */

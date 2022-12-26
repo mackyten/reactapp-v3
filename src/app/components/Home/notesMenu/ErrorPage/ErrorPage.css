@@ -1,0 +1,8 @@
+.error {
+  margin: 50px;
+  padding: 50px;
+  border: 2px darkcyan solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}/*# sourceMappingURL=ErrorPage.css.map */
