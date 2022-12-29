@@ -3,22 +3,26 @@ import Constants from "../../../../constants/Constants";
 import { useSelector } from "react-redux";
 
 function EditForm(props) {
-  const [updatedTitle, setUpdatedTitle] = useState(props.title);
+  const [updatedTitle, setUpdatedTitle] = useState(props.data.title);
   const token = useSelector((state) => state.auth.token);
   const [updatedDescription, setUpdatedDescription] = useState(
-    props.description
+    props.data.description
   );
 
+  function cancelEditing() {
+    props.cancelEditing();
+  }
+
   function onUpdateNoteHandler(event) {
-    const url = Constants.API_URL_PUT_NOTE;
+    const url = `${Constants.API_URL_PUT_NOTE}/${props.data.id}`;
     event.preventDefault();
 
     const toUpdate = {
-      id: props.id,
+      id: props.data.id,
+      dateCreated: props.data.dateCreated,
       title: updatedTitle,
       description: updatedDescription,
-      owner: props.owner,
-      createdDate: props.createdDate,
+      owner: props.data.owner,
     };
 
     fetch(url, {
@@ -33,10 +37,16 @@ function EditForm(props) {
       },
       body: JSON.stringify(toUpdate),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          console.log(response.body);
+          throw new Error(`HTTP error${response.status}`);
+        }
+        return response.json();
+      })
       .then((data) => {
         console.log("Success:", data);
-        props.setIsEditing(false);
+        cancelEditing();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -76,11 +86,7 @@ function EditForm(props) {
           Update
         </button>
 
-        <button
-          type="submit"
-          className="cancel"
-          onClick={props.updateEditingMode}
-        >
+        <button type="submit" className="cancel" onClick={cancelEditing}>
           Cancel
         </button>
       </form>

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Constants from "../../../constants/Constants";
 import AddNoteForm from "./addNoteForm/AddNoteForm";
 import { useSelector } from "react-redux";
-import { id } from "date-fns/locale";
 import EditForm from "./editForm/EditForm";
 import { ErrorPage } from "./ErrorPage/ErrorPage";
 
@@ -23,6 +22,10 @@ const NotesMenu = (props) => {
     setIsEditing(true);
   }
 
+  function cancelEditing() {
+    setIsEditing(false);
+  }
+
   useEffect(() => {
     getData();
   });
@@ -33,7 +36,7 @@ const NotesMenu = (props) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + (await token),
+        Authorization: "Bearer " + token,
       },
     })
       .then((response) => response.json())
@@ -58,7 +61,7 @@ const NotesMenu = (props) => {
             id={note.id}
             title={note.title}
             description={note.description}
-            createdDate={note.createdDate}
+            dateCreated={note.dateCreated}
             noteOwner={note.owner}
             isEditing={isEditingHandler}
           ></NoteCard>
@@ -71,14 +74,7 @@ const NotesMenu = (props) => {
       {error ? (
         <ErrorPage />
       ) : isEditing ? (
-        <EditForm
-          id={dataToUpdate.id}
-          title={dataToUpdate.title}
-          description={dataToUpdate.description}
-          owner={dataToUpdate.owner}
-          createdDate={dataToUpdate.createdDate}
-          setIsEditing={setIsEditing}
-        />
+        <EditForm data={dataToUpdate} cancelEditing={cancelEditing} />
       ) : (
         notesMenu()
       )}

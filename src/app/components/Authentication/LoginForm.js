@@ -31,9 +31,8 @@ function LoginForm() {
     const userCredentials = {
       email: email,
       password: password,
-      role: "string",
       firstname: "string",
-      surname: "string",
+      lastname: "string",
     };
 
     fetch(url, {
@@ -43,21 +42,23 @@ function LoginForm() {
       },
       body: JSON.stringify(userCredentials),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          console.log(response.body);
+          throw new Error(`HTTP error${response.status}`);
+        }
+        return response.json();
+      })
       .then((data) => {
-        if (data.status == null) {
+        console.log(data);
+        if (data.jwt != null) {
           dispatch(
             login({
-              authenticated: data.authenticated,
+              authenticated: true,
               token: data.jwt,
               credentials: data,
             })
           );
-          console.log("Success:", data);
-          setLoginButtonPressed(false);
-        } else {
-          console.error(data);
-          alert(data.title);
           setLoginButtonPressed(false);
         }
       })
