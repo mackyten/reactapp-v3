@@ -25,9 +25,8 @@ export const Register = (props) => {
       const newUserCredential = {
         email: email,
         password: password,
-        role: "user",
         firstname: firstname,
-        surname: lastname,
+        lastname: lastname,
       };
 
       fetch(url, {
@@ -37,28 +36,28 @@ export const Register = (props) => {
         },
         body: JSON.stringify(newUserCredential),
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            console.log(response.body);
+            throw new Error(`HTTP error ${response.status}`);
+          }
+          return response.json();
+        })
         .then((data) => {
-          console.log(`RESPONSE:  ${data}`);
-          if (data.status == null) {
+          console.log(data);
+          if (data.jwt != null) {
             setButtonPressed(false);
             dispatch(
               login({
-                authenticated: data.authenticated,
+                authenticated: true,
                 token: data.jwt,
                 credentials: data,
               })
             );
             setButtonPressed(false);
-            console.log("Success:", data);
-          } else {
-            console.error(data);
-            alert(data.title);
-            setButtonPressed(false);
           }
         })
         .catch((error) => {
-          console.log("Error:", error);
           alert(error);
           setButtonPressed(false);
         });

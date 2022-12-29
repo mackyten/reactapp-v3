@@ -1,14 +1,13 @@
-export const API_BASE_URL = "https://localhost:7231";
+export const API_BASE_URL = "https://localhost:7288";
 
 const EndPoints = {
-  GET_ALL_NOTES: "api/Notes",
-  POST_NOTE: "api/Notes",
-  PUT_NOTE: "api/Notes",
-  GET_NOTE_BY_ID: `api/Notes`,
-  DELETE_NOTE: `api/Notes`,
+  GET_ALL_NOTES: "api/Note/GetAllNotes",
+  POST_NOTE: "api/Note/CreateNewNote",
+  PUT_NOTE: "api/Note",
+  DELETE_NOTE: `api/Note`,
 
-  LOG_IN: "api/AuthService/login",
-  REGISTER: "api/AuthService/register",
+  LOG_IN: "api/User/SigIn",
+  REGISTER: "api/User/SignUp",
 };
 
 const development = {

@@ -9,6 +9,7 @@ function AddNoteForm(props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const url = Constants.API_URL_POST_NOTE;
+  const token = useSelector((state) => state.auth.token);
 
   function onChangeTitle(event) {
     setTitle(event.target.value);
@@ -24,17 +25,16 @@ function AddNoteForm(props) {
       alert("Title is a required field");
     } else {
       const newNote = {
-        id: 0,
         title: title,
         description: description,
         owner: user.email,
-        createdDate: addHours(new Date(), 8),
       };
 
       fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
         body: JSON.stringify(newNote),
       })

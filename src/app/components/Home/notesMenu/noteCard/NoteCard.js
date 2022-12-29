@@ -2,7 +2,6 @@ import "./NoteCard.css";
 import { format } from "date-fns";
 import { useSelector } from "react-redux";
 import Constants from "../../../../constants/Constants";
-import { useState } from "react";
 
 const NoteCard = (props) => {
   const user = useSelector((state) => state.auth.currentUser);
@@ -18,7 +17,7 @@ const NoteCard = (props) => {
         title: props.title,
         description: props.description,
         owner: props.noteOwner,
-        createdDate: props.createdDate,
+        dateCreated: props.dateCreated,
       };
 
       props.isEditing(currentNote);
@@ -51,13 +50,17 @@ const NoteCard = (props) => {
   }
 
   const onClickDeleteButton = async () => {
-    var response = window.confirm(
-      "Are you sure you want to delete this note??"
-    );
-    if (response) {
-      deleteNote();
+    if (props.noteOwner != user.email) {
+      alert("You cannot delete a note that doesn't belong to you.");
     } else {
-      console.log("no cancel");
+      var response = window.confirm(
+        "Are you sure you want to delete this note??"
+      );
+      if (response) {
+        deleteNote();
+      } else {
+        console.log("no cancel");
+      }
     }
   };
 
@@ -68,7 +71,7 @@ const NoteCard = (props) => {
       </span>
       <span className="date-created">
         Date created:{" "}
-        {format(Date.parse(props.createdDate), "yyyy/MM/dd hh:mm a")}
+        {format(Date.parse(props.dateCreated), "yyyy/MM/dd hh:mm a")}
       </span>
       <span className="posted-by">posted by: {props.noteOwner}</span>
       <span className="posted-by">id: {props.id}</span>
